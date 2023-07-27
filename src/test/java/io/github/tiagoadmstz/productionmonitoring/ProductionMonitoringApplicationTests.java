@@ -25,7 +25,7 @@ class ProductionMonitoringApplicationTests {
     @Test
     @Order(2)
     void testProductionMonitoringService() {
-        final List<DdzProductionDto> productionDtoList = productionMonitoringService.getDdzProductionDtoList("C", 23, 7, 2023);
+        final List<DdzProductionDto> productionDtoList = productionMonitoringService.getDdzProductionDtoList("C", 27, 7, 2023);
         productionDtoList.forEach(System.out::println);
     }
 

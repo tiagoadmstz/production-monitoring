@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,6 +55,7 @@ public class ProductionMonitoringService {
                 .filter(ddz -> DdzProductionHandler.isBetween(lineTurn, ddz.getPeriod()))
                 .collect(Collectors.toList());
         //check if turn starting on correct time
+        exactList.stream().sorted(Comparator.comparing(dp -> dp.getPeriod(), (o1, o2) -> ));
         exactList = DdzProductionHandler.checkStart(ddzList, exactList, exactList.get(0), lineTurn.getTurnStart().toLocalTime());
         //check if turn ending on correct time
         return DdzProductionHandler.checkEnd(ddzList, exactList, exactList.get(exactList.size() - 1), lineTurn.getTurnEnd().toLocalTime());

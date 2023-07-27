@@ -54,9 +54,36 @@ public class DdzDummyDataService {
     private void saveLineTurnList() {
         if (!lineTurnRepository.findById(1L).isPresent()) {
             final List<LineTurn> lineTurnList = new ArrayList<>();
-            lineTurnList.add(new LineTurn(1L, "A", LocalDateTime.MIN, LocalDateTime.MAX));
-            lineTurnList.add(new LineTurn(2L, "B", LocalDateTime.MIN, LocalDateTime.MAX));
-            lineTurnList.add(new LineTurn(3L, "C", LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 1)), LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0))));
+            lineTurnList.add(LineTurn.builder()
+                .id(1L).line("L07").turn("A")
+                .description("Turno A")
+                .initialValidity(LocalDateTime.now())
+                .finalValidity(LocalDateTime.now())
+                .turnStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 46)))
+                .turnEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(6, 14)))
+                .defaultTurn(true)
+                .build()
+            );
+            lineTurnList.add(LineTurn.builder()
+                .id(1L).line("L07").turn("B")
+                .description("Turno B")
+                .initialValidity(LocalDateTime.now())
+                .finalValidity(LocalDateTime.now())
+                .turnStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(6, 15)))
+                .turnEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 00)))
+                .defaultTurn(true)
+                .build()
+            );
+            lineTurnList.add(LineTurn.builder()
+                .id(1L).line("L07").turn("C")
+                .description("Turno C")
+                .initialValidity(LocalDateTime.now())
+                .finalValidity(LocalDateTime.now())
+                .turnStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 1)))
+                .turnEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 45)))
+                .defaultTurn(true)
+                .build()
+            );
             lineTurnRepository.saveAll(lineTurnList);
         }
     }
