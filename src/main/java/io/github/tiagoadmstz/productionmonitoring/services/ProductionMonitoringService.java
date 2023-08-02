@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,7 +34,7 @@ public class ProductionMonitoringService {
         final Optional<LineTurn> lineTurn = lineTurnRepository.findByTurn(turn);
         if (lineTurn.isPresent()) {
             final List<DdzProductionDto> ddzList = getDdzProductionDtoList(day, month, year);
-            return filterByTurn(ddzList, lineTurn.get());
+            return DdzProductionHandler.filterByTurn(ddzList, lineTurn.get());
         }
         return Collections.emptyList();
     }
@@ -47,18 +46,6 @@ public class ProductionMonitoringService {
                 .distinct()
                 .map(this::createDdzProductionDto)
                 .collect(Collectors.toList());
-    }
-
-    private List<DdzProductionDto> filterByTurn(final List<DdzProductionDto> ddzList, final LineTurn lineTurn) {
-        //get absolut interval
-        List<DdzProductionDto> exactList = ddzList.stream()
-                .filter(ddz -> DdzProductionHandler.isBetween(lineTurn, ddz.getPeriod()))
-                .collect(Collectors.toList());
-        //check if turn starting on correct time
-        exactList.stream().sorted(Comparator.comparing(dp -> dp.getPeriod(), (o1, o2) -> ));
-        exactList = DdzProductionHandler.checkStart(ddzList, exactList, exactList.get(0), lineTurn.getTurnStart().toLocalTime());
-        //check if turn ending on correct time
-        return DdzProductionHandler.checkEnd(ddzList, exactList, exactList.get(exactList.size() - 1), lineTurn.getTurnEnd().toLocalTime());
     }
 
     private DdzProductionDto createDdzProductionDto(Ddz ddz) {
