@@ -44,6 +44,7 @@ public class ProductionMonitoringService {
         return ddzControlList.stream()
                 .flatMap(ddzControl -> ddzControl.getDdzList().stream())
                 .distinct()
+                .sorted()
                 .map(this::createDdzProductionDto)
                 .collect(Collectors.toList());
     }

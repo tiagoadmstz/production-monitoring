@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "DDZ", schema = "dbo")
-public class Ddz implements Serializable {
+public class Ddz implements Serializable, Comparable<Ddz> {
 
     private static final long serialVersionUID = 5732841631253034093L;
 
@@ -40,4 +40,14 @@ public class Ddz implements Serializable {
     @Column(name = "FLAG")
     private String flag;
 
+    @Override
+    public int compareTo(Ddz ddz) {
+        if (ddz.getInputHour().equals(inputHour)) {
+            return 0;
+        } else if (ddz.getInputHour().isBefore(inputHour)) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 }

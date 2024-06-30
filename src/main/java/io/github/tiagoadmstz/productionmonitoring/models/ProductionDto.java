@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class ProductionDto {
 
-    private Integer id;
-    private Integer code;
-    private Integer minutes;
-    private RegisterType productionType;
+    private Long id;
+    private Long code;
+    private Long minutes = 0L;
+    private RegisterType productionType = RegisterType.PRODUCAO;
 
 }

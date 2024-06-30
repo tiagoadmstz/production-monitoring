@@ -2,18 +2,32 @@ package io.github.tiagoadmstz.productionmonitoring.handlers;
 
 import io.github.tiagoadmstz.productionmonitoring.entities.LineTurn;
 import io.github.tiagoadmstz.productionmonitoring.models.DdzProductionDto;
+import io.github.tiagoadmstz.productionmonitoring.models.ProductionDto;
+import io.github.tiagoadmstz.productionmonitoring.models.RegisterType;
 
 import java.time.LocalTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DdzProductionHandler {
 
     public static void calculateSteps(final List<DdzProductionDto> ddzList, final LineTurn lineTurn) {
         final List<DdzProductionDto> ddzProductionDtos = DdzProductionHandler.filterByTurn(ddzList, lineTurn);
-
+        final Map<Integer, ProductionDto> map = new HashMap<>();
+        Long result = 0L;
+        for (int i = 0; i < ddzProductionDtos.size(); i++) {
+            DdzProductionDto ddzProductionDto = ddzProductionDtos.get(i);
+            if ((i + 1) < ddzProductionDtos.size()) {
+                DdzProductionDto ddzProductionDto2 = ddzProductionDtos.get(i + 1);
+                if (ddzProductionDto.getRegisterType() != RegisterType.PARADA) {
+                    result += ddzProductionDto.getPeriod().until(ddzProductionDto2.getPeriod(), ChronoUnit.MINUTES);
+                } else {
+                    ProductionDto productionDto = new ProductionDto();
+                    map.put(map.size() + 1, productionDto);
+                }
+            }
+        }
     }
 
     public static List<DdzProductionDto> filterByTurn(final List<DdzProductionDto> ddzList, final LineTurn lineTurn) {
